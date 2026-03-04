@@ -25,6 +25,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NUXT_APP_BASE_URL: /2blang
     steps:
       - uses: actions/checkout@v4
         with:

@@ -2,7 +2,7 @@ export default defineNuxtConfig({
   extends: ['../../packages/shared'],
 
   app: {
-    baseURL: '/',
+    baseURL: `${process.env.NUXT_APP_BASE_URL || ''}/`,
   },
 
   nitro: {

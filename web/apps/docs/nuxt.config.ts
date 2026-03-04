@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   modules: ['@nuxt/content'],
 
   app: {
-    baseURL: '/docs/',
+    baseURL: `${process.env.NUXT_APP_BASE_URL || ''}/docs/`,
   },
 
   nitro: {
