@@ -7,12 +7,7 @@ export default defineNuxtConfig({
   modules: ['@nuxt/content'],
 
   app: {
-    // baseURL is used for routing and asset paths in HTML
-    // During prerender, requests are relative (no SITE_PREFIX)
-    // After generate, files are deployed to SITE_PREFIX/docs/VERSION/
-    baseURL: `/docs/${version}/`,
-    // cdnURL overrides just the asset prefix without affecting routing
-    ...(sitePrefix ? { cdnURL: `${sitePrefix}/docs/${version}/` } : {}),
+    baseURL: `${sitePrefix}/docs/${version}/`,
   },
 
   nitro: {

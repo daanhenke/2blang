@@ -83,25 +83,31 @@ jobs:
           pnpm --filter @2b/spec run generate
 
       # Merge outputs into dist/
+      # nuxt generate nests output under baseURL (e.g. .output/public/2blang/docs/next/)
+      # We copy from the SITE_PREFIX subtree so dist/ maps to the deployed prefix root
       - name: Merge outputs
         run: |
           mkdir -p dist
+          PREFIX="${SITE_PREFIX#/}"  # strip leading slash: "2blang"
 
-          # Landing goes to root
-          if [ -d web/apps/landing/.output/public ]; then
-            cp -r web/apps/landing/.output/public/* dist/
+          # Landing: .output/public/<PREFIX>/* -> dist/
+          SRC="web/apps/landing/.output/public${SITE_PREFIX}"
+          if [ -d "$SRC" ]; then
+            cp -r "$SRC"/* dist/
           fi
 
-          # Docs
-          if [ -d web/apps/docs/.output/public ]; then
+          # Docs: .output/public/<PREFIX>/docs/next/* -> dist/docs/next/
+          SRC="web/apps/docs/.output/public${SITE_PREFIX}/docs/next"
+          if [ -d "$SRC" ]; then
             mkdir -p dist/docs/next
-            cp -r web/apps/docs/.output/public/* dist/docs/next/
+            cp -r "$SRC"/* dist/docs/next/
           fi
 
-          # Spec
-          if [ -d web/apps/spec/.output/public ]; then
+          # Spec: .output/public/<PREFIX>/spec/next/* -> dist/spec/next/
+          SRC="web/apps/spec/.output/public${SITE_PREFIX}/spec/next"
+          if [ -d "$SRC" ]; then
             mkdir -p dist/spec/next
-            cp -r web/apps/spec/.output/public/* dist/spec/next/
+            cp -r "$SRC"/* dist/spec/next/
           fi
 
           # Copy manifest to dist root
