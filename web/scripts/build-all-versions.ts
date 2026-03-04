@@ -82,7 +82,7 @@ for (const version of manifest.versions) {
 }
 
 // 3. Create redirect for /docs/latest -> /docs/<latest>/
-const baseUrl = process.env.NUXT_APP_BASE_URL || ''
+const baseUrl = process.env.SITE_PREFIX || ''
 
 const latestRedirectHtml = `<!DOCTYPE html>
 <html>

@@ -1,4 +1,5 @@
 const version = process.env.NUXT_PUBLIC_CURRENT_VERSION || 'next'
+const sitePrefix = process.env.SITE_PREFIX || ''
 
 export default defineNuxtConfig({
   extends: ['../../packages/shared'],
@@ -6,7 +7,7 @@ export default defineNuxtConfig({
   modules: ['@nuxt/content'],
 
   app: {
-    baseURL: `/spec/${version}/`,
+    baseURL: `${sitePrefix}/spec/${version}/`,
   },
 
   nitro: {

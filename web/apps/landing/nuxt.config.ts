@@ -1,8 +1,10 @@
+const sitePrefix = process.env.SITE_PREFIX || ''
+
 export default defineNuxtConfig({
   extends: ['../../packages/shared'],
 
   app: {
-    baseURL: '/',
+    baseURL: `${sitePrefix}/`,
   },
 
   nitro: {

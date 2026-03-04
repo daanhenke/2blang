@@ -26,7 +26,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      NUXT_APP_BASE_URL: /2blang
+      SITE_PREFIX: /2blang
     steps:
       - uses: actions/checkout@v4
         with:
@@ -75,15 +75,12 @@ jobs:
         if: steps.scope.outputs.mode == 'current'
         env:
           NODE_OPTIONS: '--max-old-space-size=4096'
+          NUXT_PUBLIC_CURRENT_VERSION: next
+          NUXT_PUBLIC_CURRENT_VERSION_TYPE: next
         run: |
-          # Build landing
           pnpm --filter @2b/landing run generate
-
-          # Build docs as "next"
-          NUXT_PUBLIC_CURRENT_VERSION=next NUXT_PUBLIC_CURRENT_VERSION_TYPE=next pnpm --filter @2b/docs run generate
-
-          # Build spec as "next"
-          NUXT_PUBLIC_CURRENT_VERSION=next NUXT_PUBLIC_CURRENT_VERSION_TYPE=next pnpm --filter @2b/spec run generate
+          pnpm --filter @2b/docs run generate
+          pnpm --filter @2b/spec run generate
 
       # Merge outputs into dist/
       - name: Merge outputs
