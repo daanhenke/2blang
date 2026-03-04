@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "scripts": {
+    "dev:landing": "pnpm --filter @2b/landing dev",
+    "dev:docs": "pnpm --filter @2b/docs dev",
+    "dev:spec": "pnpm --filter @2b/spec dev",
+    "build:landing": "pnpm --filter @2b/landing generate",
+    "build:docs": "pnpm --filter @2b/docs generate",
+    "build:spec": "pnpm --filter @2b/spec generate",
+    "build:all": "pnpm --filter @2b/scripts run build:all",
+    "build:version": "pnpm --filter @2b/scripts run build:version",
+    "generate:manifest": "pnpm --filter @2b/scripts run manifest",
+    "lint": "pnpm -r --filter './web/**' run lint"
+  }
+}

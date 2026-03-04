@@ -1,0 +1,50 @@
+/* Railroad diagram styles — based on railroad-diagrams defaults, made overridable */
+.ebnf-railroad svg {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+  padding: 0.5rem;
+}
+
+.ebnf-railroad svg path {
+  stroke-width: 3;
+  stroke: #1a1a2e;
+  fill: rgba(0, 0, 0, 0);
+}
+
+.ebnf-railroad svg text {
+  font: bold 14px 'JetBrains Mono', 'Fira Code', monospace;
+  text-anchor: middle;
+  cursor: default;
+}
+
+.ebnf-railroad svg text.comment {
+  font: italic 12px system-ui, sans-serif;
+}
+
+.ebnf-railroad svg rect {
+  stroke-width: 3;
+  stroke: #1a1a2e;
+  fill: #dbeafe;
+}
+
+.ebnf-railroad svg rect.group-box {
+  stroke: #94a3b8;
+  stroke-dasharray: 10 5;
+  fill: none;
+}
+
+.ebnf-railroad svg path.diagram-text {
+  stroke-width: 3;
+  stroke: #1a1a2e;
+  fill: #fff;
+  cursor: default;
+}
+
+.ebnf-railroad figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #64748b;
+  font-style: italic;
+  text-align: center;
+}

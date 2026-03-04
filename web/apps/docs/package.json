@@ -1,0 +1,20 @@
+{
+  "name": "@2b/docs",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@2b/eslint-config": "workspace:*",
+    "@2b/shared": "workspace:*",
+    "@nuxt/content": "^3.6.0",
+    "eslint": "^9.22.0",
+    "nuxt": "^3.17.0"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "@2b/scripts",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "manifest": "node --import tsx ./version-manifest.ts",
+    "build:version": "node --import tsx ./build-version.ts",
+    "build:all": "node --import tsx ./build-all-versions.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0"
+  }
+}

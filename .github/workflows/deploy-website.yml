@@ -1,0 +1,145 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+    tags:
+      - 'releases/**'
+      - 'release-candidates/**'
+  workflow_dispatch:
+    inputs:
+      build_all:
+        description: 'Build all versions'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install
+
+      # Determine build scope
+      - name: Determine build scope
+        id: scope
+        run: |
+          if [[ "${{ github.event.inputs.build_all }}" == "true" ]]; then
+            echo "mode=all" >> $GITHUB_OUTPUT
+          elif [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            echo "mode=single" >> $GITHUB_OUTPUT
+            echo "ref=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          else
+            echo "mode=current" >> $GITHUB_OUTPUT
+          fi
+
+      # Generate version manifest
+      - name: Generate version manifest
+        run: pnpm --filter @2b/scripts run manifest
+
+      # Full build: all versions
+      - name: Build all versions
+        if: steps.scope.outputs.mode == 'all'
+        run: pnpm --filter @2b/scripts run build:all
+
+      # Single version build (tag push)
+      - name: Build single version
+        if: steps.scope.outputs.mode == 'single'
+        run: pnpm --filter @2b/scripts run build:version -- ${{ steps.scope.outputs.ref }}
+
+      # Current branch build (master push)
+      - name: Build current (next)
+        if: steps.scope.outputs.mode == 'current'
+        run: |
+          # Build landing
+          pnpm --filter @2b/landing run generate
+
+          # Build docs as "next"
+          NUXT_PUBLIC_CURRENT_VERSION=next NUXT_PUBLIC_CURRENT_VERSION_TYPE=next pnpm --filter @2b/docs run generate
+
+          # Build spec as "next"
+          NUXT_PUBLIC_CURRENT_VERSION=next NUXT_PUBLIC_CURRENT_VERSION_TYPE=next pnpm --filter @2b/spec run generate
+
+      # Merge outputs into dist/
+      - name: Merge outputs
+        run: |
+          mkdir -p dist
+
+          # Landing goes to root
+          if [ -d web/apps/landing/.output/public ]; then
+            cp -r web/apps/landing/.output/public/* dist/
+          fi
+
+          # Docs
+          if [ -d web/apps/docs/.output/public ]; then
+            mkdir -p dist/docs/next
+            cp -r web/apps/docs/.output/public/* dist/docs/next/
+          fi
+
+          # Spec
+          if [ -d web/apps/spec/.output/public ]; then
+            mkdir -p dist/spec/next
+            cp -r web/apps/spec/.output/public/* dist/spec/next/
+          fi
+
+          # Copy manifest to dist root
+          if [ -f web/apps/landing/public/version-manifest.json ]; then
+            cp web/apps/landing/public/version-manifest.json dist/
+          fi
+
+          # Add .nojekyll for GitHub Pages
+          touch dist/.nojekyll
+
+      # Restore previous deployment for incremental builds
+      - name: Download previous deployment
+        if: steps.scope.outputs.mode != 'all'
+        uses: actions/cache@v4
+        with:
+          path: dist-cache
+          key: pages-dist-${{ github.run_id }}
+          restore-keys: pages-dist-
+
+      - name: Merge with previous deployment
+        if: steps.scope.outputs.mode != 'all'
+        run: |
+          if [ -d dist-cache ]; then
+            # Copy cached files, but don't overwrite new builds
+            cp -rn dist-cache/* dist/ 2>/dev/null || true
+          fi
+          # Save current dist as cache for next run
+          rm -rf dist-cache
+          cp -r dist dist-cache
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

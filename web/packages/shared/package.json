@@ -1,0 +1,16 @@
+{
+  "name": "@2b/shared",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./nuxt.config.ts",
+  "dependencies": {
+    "railroad-diagrams": "^1.0.0"
+  },
+  "devDependencies": {
+    "@unocss/nuxt": "^66.1.0",
+    "@unocss/transformer-directives": "^66.1.0",
+    "nuxt": "^3.17.0",
+    "unocss": "^66.1.0"
+  }
+}

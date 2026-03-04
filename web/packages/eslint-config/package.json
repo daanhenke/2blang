@@ -1,0 +1,10 @@
+{
+  "name": "@2b/eslint-config",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./index.mjs",
+  "dependencies": {
+    "@antfu/eslint-config": "^4.12.0"
+  }
+}

@@ -1,3 +1,15 @@
 node_modules/
 build/
 dist/
+
+# Nuxt
+.nuxt/
+.output/
+.content-versions/
+.data/
+
+# Generated
+web/apps/*/public/version-manifest.json
+
+# Slop
+.claude/

@@ -1,0 +1,72 @@
+/* 2b Language Grammar (sample) */
+
+program       ::= statement*
+
+statement     ::= let-statement
+                | expression-statement
+                | if-statement
+                | function-decl
+                | return-statement
+
+let-statement ::= "let" identifier (":" type)? "=" expression
+
+expression-statement ::= expression
+
+if-statement  ::= "if" expression block ("else" (if-statement | block))?
+
+function-decl ::= "fn" identifier "(" param-list? ")" ("->" type)? block
+
+return-statement ::= "return" expression?
+
+param-list    ::= param ("," param)*
+
+param         ::= identifier ":" type
+
+type          ::= identifier
+                | identifier "<" type ("," type)* ">"
+                | "(" type ("," type)* ")" "->" type
+
+block         ::= "{" statement* "}"
+
+expression    ::= assignment
+
+assignment    ::= ternary ("=" assignment)?
+
+ternary       ::= or ("?" expression ":" ternary)?
+
+or            ::= and ("||" and)*
+
+and           ::= equality ("&&" equality)*
+
+equality      ::= comparison (("==" | "!=") comparison)*
+
+comparison    ::= addition (("<" | ">" | "<=" | ">=") addition)*
+
+addition      ::= multiplication (("+" | "-") multiplication)*
+
+multiplication ::= unary (("*" | "/" | "%") unary)*
+
+unary         ::= ("-" | "!") unary | call
+
+call          ::= primary ("(" arg-list? ")" | "." identifier | "[" expression "]")*
+
+arg-list      ::= expression ("," expression)*
+
+primary       ::= number
+                | string
+                | "true" | "false"
+                | identifier
+                | "(" expression ")"
+                | array-literal
+
+array-literal ::= "[" (expression ("," expression)*)? "]"
+
+identifier    ::= letter (letter | digit | "_")*
+
+number        ::= digit+ ("." digit+)?
+
+string        ::= '"' char* '"'
+
+letter        ::= 'a'-'z' | 'A'-'Z'
+
+digit         ::= '0'-'9'
