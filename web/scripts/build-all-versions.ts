@@ -6,8 +6,6 @@ import { extractContent } from './copy-content'
 
 const repoRoot = resolve(import.meta.dirname!, '..', '..')
 const distRoot = resolve(repoRoot, 'dist')
-const sitePrefix = process.env.SITE_PREFIX || '' // e.g. "/2blang"
-const prefixPath = sitePrefix.replace(/^\//, '') // e.g. "2blang" (no leading slash)
 
 const manifest = generateManifest(repoRoot)
 
@@ -41,8 +39,8 @@ mkdirSync(distRoot, { recursive: true })
 // 1. Build landing (versionless)
 console.log('\n=== Building landing ===')
 run('npx nuxt generate', resolve(repoRoot, 'web', 'apps', 'landing'))
-// nuxt generate nests output under baseURL, so copy from the prefix subtree
-const landingOutput = resolve(repoRoot, 'web', 'apps', 'landing', '.output', 'public', prefixPath)
+// nuxt generate always outputs flat to .output/public/ regardless of baseURL
+const landingOutput = resolve(repoRoot, 'web', 'apps', 'landing', '.output', 'public')
 if (existsSync(landingOutput)) {
   cpSync(landingOutput, distRoot, { recursive: true })
 }
@@ -64,10 +62,9 @@ for (const version of manifest.versions) {
   }
 
   // Build docs for this version
-  // Output is nested under baseURL: .output/public/<prefix>/docs/<version>/
   const docsDir = resolve(repoRoot, 'web', 'apps', 'docs')
   run('npx nuxt generate', docsDir, buildEnv)
-  const docsOutput = resolve(docsDir, '.output', 'public', prefixPath, 'docs', version.id)
+  const docsOutput = resolve(docsDir, '.output', 'public')
   if (existsSync(docsOutput)) {
     const target = join(distRoot, 'docs', version.id)
     mkdirSync(target, { recursive: true })
@@ -77,7 +74,7 @@ for (const version of manifest.versions) {
   // Build spec for this version
   const specDir = resolve(repoRoot, 'web', 'apps', 'spec')
   run('npx nuxt generate', specDir, buildEnv)
-  const specOutput = resolve(specDir, '.output', 'public', prefixPath, 'spec', version.id)
+  const specOutput = resolve(specDir, '.output', 'public')
   if (existsSync(specOutput)) {
     const target = join(distRoot, 'spec', version.id)
     mkdirSync(target, { recursive: true })
