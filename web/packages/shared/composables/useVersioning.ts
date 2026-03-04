@@ -48,8 +48,8 @@ export function useVersioning() {
     }
   }
 
-  // Load manifest on first use
-  if (!manifestLoaded.value) {
+  // Load manifest on first use — only client-side to avoid SSR prerender fetch loops
+  if (typeof window !== 'undefined' && !manifestLoaded.value) {
     loadManifest()
   }
 

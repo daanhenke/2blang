@@ -7,8 +7,8 @@ export default defineNuxtConfig({
 
   nitro: {
     prerender: {
-      routes: ['/', '/downloads'],
-      crawlLinks: false,
+      ignore: ['/docs/', '/spec/'],
+      failOnError: false,
     },
   },
 
