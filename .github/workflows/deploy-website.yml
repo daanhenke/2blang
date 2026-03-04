@@ -38,6 +38,8 @@ jobs:
           cache: pnpm
 
       - run: pnpm install
+        with:
+          version: 10.30.3
 
       # Determine build scope
       - name: Determine build scope
