@@ -7,8 +7,8 @@ export default defineNuxtConfig({
 
   nitro: {
     prerender: {
-      // Ignore cross-app links — docs and spec are separate Nuxt apps
-      ignore: ['/docs/', '/spec/'],
+      routes: ['/', '/downloads'],
+      crawlLinks: false,
     },
   },
 
