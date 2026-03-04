@@ -29,7 +29,7 @@ function run(cmd: string, cwd: string, extraEnv?: Record<string, string>) {
   execSync(cmd, {
     cwd,
     stdio: 'inherit',
-    env: { ...process.env, ...extraEnv },
+    env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096', ...extraEnv },
   })
 }
 
@@ -82,10 +82,12 @@ for (const version of manifest.versions) {
 }
 
 // 3. Create redirect for /docs/latest -> /docs/<latest>/
+const baseUrl = process.env.NUXT_APP_BASE_URL || ''
+
 const latestRedirectHtml = `<!DOCTYPE html>
 <html>
-<head><meta http-equiv="refresh" content="0;url=/docs/${manifest.latest}/"></head>
-<body>Redirecting to <a href="/docs/${manifest.latest}/">latest docs</a>...</body>
+<head><meta http-equiv="refresh" content="0;url=${baseUrl}/docs/${manifest.latest}/"></head>
+<body>Redirecting to <a href="${baseUrl}/docs/${manifest.latest}/">latest docs</a>...</body>
 </html>`
 mkdirSync(join(distRoot, 'docs', 'latest'), { recursive: true })
 writeFileSync(join(distRoot, 'docs', 'latest', 'index.html'), latestRedirectHtml)
@@ -93,8 +95,8 @@ writeFileSync(join(distRoot, 'docs', 'latest', 'index.html'), latestRedirectHtml
 // Same for spec
 const latestSpecRedirect = `<!DOCTYPE html>
 <html>
-<head><meta http-equiv="refresh" content="0;url=/spec/${manifest.latest}/"></head>
-<body>Redirecting to <a href="/spec/${manifest.latest}/">latest spec</a>...</body>
+<head><meta http-equiv="refresh" content="0;url=${baseUrl}/spec/${manifest.latest}/"></head>
+<body>Redirecting to <a href="${baseUrl}/spec/${manifest.latest}/">latest spec</a>...</body>
 </html>`
 mkdirSync(join(distRoot, 'spec', 'latest'), { recursive: true })
 writeFileSync(join(distRoot, 'spec', 'latest', 'index.html'), latestSpecRedirect)

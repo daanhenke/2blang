@@ -1,10 +1,12 @@
+const version = process.env.NUXT_PUBLIC_CURRENT_VERSION || 'next'
+
 export default defineNuxtConfig({
   extends: ['../../packages/shared'],
 
   modules: ['@nuxt/content'],
 
   app: {
-    baseURL: `${process.env.NUXT_APP_BASE_URL || ''}/spec/`,
+    baseURL: `/spec/${version}/`,
   },
 
   nitro: {
@@ -15,8 +17,6 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    '/latest': { redirect: { to: '/spec/next/', statusCode: 302 } },
-    '/latest/**': { redirect: { to: '/spec/next/**', statusCode: 302 } },
     '/print': { prerender: false },
   },
 

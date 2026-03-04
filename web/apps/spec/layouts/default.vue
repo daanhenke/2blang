@@ -7,7 +7,7 @@
         <NuxtLink to="/spec/next/">Spec</NuxtLink>
       </template>
       <template #actions>
-        <VersionSwitcher base-path="/spec" />
+        <VersionSwitcher />
       </template>
     </AppHeader>
 

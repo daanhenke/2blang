@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import type { VersionManifest, VersionEntry } from '../composables/useVersioning'
 
-const props = withDefaults(defineProps<{
-  /** Base path prefix, e.g. '/docs' or '/spec' */
-  basePath?: string
-}>(), {
-  basePath: '/docs',
-})
-
 const { manifest, currentVersion } = useVersioning()
+const config = useRuntimeConfig()
+
+// baseURL is e.g. "/2blang/docs/next/" or "/docs/next/"
+// Strip the current version segment and rebuild with the target version
+const basePath = ((config.app as any).baseURL as string || '/')
+  .replace(/\/$/, '')       // remove trailing slash
+  .replace(/\/[^/]+$/, '')  // remove version segment → "/2blang/docs" or "/docs"
 
 function versionUrl(version: VersionEntry): string {
-  return `${props.basePath}/${version.id}/`
+  return `${basePath}/${version.id}/`
 }
 
 function navigateToVersion(event: Event) {
