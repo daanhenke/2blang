@@ -7,6 +7,13 @@ export default defineNuxtConfig({
     baseURL: '/spec/',
   },
 
+  nitro: {
+    prerender: {
+      // Ignore cross-app links — docs, landing, and downloads are separate apps
+      ignore: ['/docs/', '/downloads'],
+    },
+  },
+
   routeRules: {
     '/latest': { redirect: { to: '/spec/next/', statusCode: 302 } },
     '/latest/**': { redirect: { to: '/spec/next/**', statusCode: 302 } },
