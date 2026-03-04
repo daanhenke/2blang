@@ -44,7 +44,7 @@ const env = {
 
 function run(cmd: string, cwd: string) {
   console.log(`> ${cmd} (in ${cwd})`)
-  execSync(cmd, { cwd, stdio: 'inherit', env })
+  execSync(cmd, { cwd, stdio: 'inherit', env: { ...env, NODE_OPTIONS: '--max-old-space-size=4096' } })
 }
 
 console.log(`\nBuilding version: ${versionId} (${versionType}) from ref: ${gitRef || 'working tree'}\n`)

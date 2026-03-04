@@ -71,6 +71,8 @@ jobs:
       # Current branch build (master push)
       - name: Build current (next)
         if: steps.scope.outputs.mode == 'current'
+        env:
+          NODE_OPTIONS: '--max-old-space-size=4096'
         run: |
           # Build landing
           pnpm --filter @2b/landing run generate
