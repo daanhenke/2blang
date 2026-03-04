@@ -1,0 +1,7 @@
+packages:
+  - web/**/*
+
+linkWorkspacePackages: true
+
+onlyBuiltDependencies:
+  - better-sqlite3

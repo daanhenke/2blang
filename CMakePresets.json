@@ -1,0 +1,20 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "hidden": true,
+      "name": "base",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/cmake/${presetName}"
+    },
+    {
+      "name": "native",
+      "inherits": [ "base" ]
+    },
+    {
+      "name": "web",
+      "inherits": [ "base" ],
+      "toolchainFile": "$env{EMSDK}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake"
+    }
+  ]
+}
