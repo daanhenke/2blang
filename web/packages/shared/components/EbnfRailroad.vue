@@ -24,9 +24,9 @@ const { data: svg, error } = await useAsyncData(
 <template>
   <figure class="ebnf-railroad">
     <div v-if="svg" v-html="svg" />
-    <!-- <div v-else-if="error" class="ebnf-railroad__error">
+    <div v-else-if="error" class="ebnf-railroad__error">
       Failed to render railroad diagram: {{ error.message }}
-    </div> -->
+    </div>
     <figcaption>{{ rule }}</figcaption>
   </figure>
 </template>
