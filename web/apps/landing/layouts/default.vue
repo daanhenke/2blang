@@ -8,6 +8,7 @@ const { public: { currentVersion, sitePrefix } } = useRuntimeConfig()
       <template #nav>
         <NuxtLink to="/">Home</NuxtLink>
         <NuxtLink to="/downloads">Downloads</NuxtLink>
+        <NuxtLink to="/explore">Explore</NuxtLink>
         <a :href="`${sitePrefix}/docs/${currentVersion}/`">Docs</a>
         <a :href="`${sitePrefix}/spec/${currentVersion}/`">Spec</a>
       </template>

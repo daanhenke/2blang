@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { shallowRef, markRaw, onMounted } from 'vue'
+import { computed, shallowRef, markRaw, onMounted } from 'vue'
 
 interface ProjectFile { name: string; content: string }
 interface Project { id: string; name: string; files: ProjectFile[] }
@@ -9,6 +9,19 @@ const props = defineProps<{
   src?: string
   label?: string
 }>()
+
+const {
+  app: { baseURL },
+} = useRuntimeConfig()
+
+const resolvedProps = computed(() => {
+  if (!props.src?.startsWith('/')) return props
+
+  return {
+    ...props,
+    src: `${baseURL}${props.src.slice(1)}`,
+  }
+})
 
 const TryItComponent = shallowRef<any>(null)
 
@@ -23,7 +36,7 @@ onMounted(async () => {
   <component
     :is="TryItComponent"
     v-if="TryItComponent"
-    v-bind="props"
+    v-bind="resolvedProps"
   />
   <button v-else class="ide-try-it-placeholder" disabled>
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
