@@ -1,10 +1,14 @@
+<script setup lang="ts">
+const { public: { currentVersion, sitePrefix } } = useRuntimeConfig()
+</script>
+
 <template>
   <div class="spec-layout">
-    <AppHeader title="2b Spec" home-path="/">
+    <AppHeader title="2b Spec" :home-path="`${sitePrefix}/`">
       <template #nav>
-        <NuxtLink to="/">Home</NuxtLink>
-        <NuxtLink to="/docs/next/">Docs</NuxtLink>
-        <NuxtLink to="/spec/next/">Spec</NuxtLink>
+        <a :href="`${sitePrefix}/`">Home</a>
+        <a :href="`${sitePrefix}/docs/${currentVersion}/`">Docs</a>
+        <NuxtLink to="/">Spec</NuxtLink>
       </template>
       <template #actions>
         <VersionSwitcher />

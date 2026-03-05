@@ -37,6 +37,7 @@ export default defineNuxtConfig({
     public: {
       currentVersion: process.env.NUXT_PUBLIC_CURRENT_VERSION || 'next',
       currentVersionType: process.env.NUXT_PUBLIC_CURRENT_VERSION_TYPE || 'next',
+      sitePrefix: process.env.SITE_PREFIX || '',
     },
   },
 

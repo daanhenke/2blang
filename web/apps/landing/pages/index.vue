@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { public: { currentVersion, sitePrefix } } = useRuntimeConfig()
+
 useHead({
   title: '2b — A Programming Language',
 })
@@ -19,9 +21,9 @@ useHead({
           <NuxtLink to="/downloads" class="hero__btn hero__btn--primary">
             Download
           </NuxtLink>
-          <NuxtLink to="/docs/next/" class="hero__btn hero__btn--secondary">
+          <a :href="`${sitePrefix}/docs/${currentVersion}/`" class="hero__btn hero__btn--secondary">
             Documentation
-          </NuxtLink>
+          </a>
         </div>
       </div>
     </section>

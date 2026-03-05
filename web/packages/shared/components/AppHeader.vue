@@ -11,9 +11,9 @@ const props = withDefaults(defineProps<{
 <template>
   <header class="app-header">
     <div class="app-header__inner">
-      <NuxtLink :to="props.homePath" class="app-header__brand">
+      <a :href="props.homePath" class="app-header__brand">
         {{ props.title }}
-      </NuxtLink>
+      </a>
       <nav class="app-header__nav">
         <slot name="nav" />
       </nav>
