@@ -21,6 +21,9 @@ useHead({
           <NuxtLink to="/downloads" class="hero__btn hero__btn--primary">
             Download
           </NuxtLink>
+          <NuxtLink to="/explore" class="hero__btn hero__btn--secondary">
+            Explore IDE
+          </NuxtLink>
           <a :href="`${sitePrefix}/docs/${currentVersion}/`" class="hero__btn hero__btn--secondary">
             Documentation
           </a>
