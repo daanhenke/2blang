@@ -10,7 +10,8 @@ import { generateManifest } from './version-manifest'
  * If no gitRef is given, builds the current working tree as "next".
  */
 const repoRoot = resolve(import.meta.dirname!, '..', '..')
-const gitRef = process.argv[2]
+// Filter out '--' which pnpm passes through as an arg separator
+const gitRef = process.argv.slice(2).filter(a => a !== '--')[0]
 
 const manifest = generateManifest(repoRoot)
 
