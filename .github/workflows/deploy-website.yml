@@ -88,9 +88,17 @@ jobs:
           pnpm --filter @2b/docs run generate
           pnpm --filter @2b/spec run generate
 
-      # Merge outputs into dist/
+      # Restore previous deployment as base for incremental builds
+      - name: Restore previous deployment
+        if: steps.scope.outputs.mode != 'all'
+        uses: actions/cache@v4
+        with:
+          path: dist
+          key: pages-dist-${{ github.run_id }}
+          restore-keys: pages-dist-
+
+      # Merge new build outputs into dist/ (on top of cached state)
       # For 'all' mode, build-all-versions.ts already creates dist/ — skip merge
-      # For 'current' and 'single', assemble dist/ from .output/public/ dirs
       - name: Merge outputs
         if: steps.scope.outputs.mode != 'all'
         run: |
@@ -102,14 +110,16 @@ jobs:
             cp -r web/apps/landing/.output/public/* dist/
           fi
 
-          # Docs
+          # Docs — overwrite this version's files in dist
           if [ -d web/apps/docs/.output/public ]; then
+            rm -rf "dist/docs/$VERSION"
             mkdir -p "dist/docs/$VERSION"
             cp -r web/apps/docs/.output/public/* "dist/docs/$VERSION/"
           fi
 
-          # Spec
+          # Spec — overwrite this version's files in dist
           if [ -d web/apps/spec/.output/public ]; then
+            rm -rf "dist/spec/$VERSION"
             mkdir -p "dist/spec/$VERSION"
             cp -r web/apps/spec/.output/public/* "dist/spec/$VERSION/"
           fi
@@ -121,26 +131,6 @@ jobs:
 
           # Add .nojekyll for GitHub Pages
           touch dist/.nojekyll
-
-      # Restore previous deployment for incremental builds
-      - name: Download previous deployment
-        if: steps.scope.outputs.mode != 'all'
-        uses: actions/cache@v4
-        with:
-          path: dist-cache
-          key: pages-dist-${{ github.run_id }}
-          restore-keys: pages-dist-
-
-      - name: Merge with previous deployment
-        if: steps.scope.outputs.mode != 'all'
-        run: |
-          if [ -d dist-cache ]; then
-            # Copy cached files, but don't overwrite new builds
-            cp -rn dist-cache/* dist/ 2>/dev/null || true
-          fi
-          # Save current dist as cache for next run
-          rm -rf dist-cache
-          cp -r dist dist-cache
 
       - uses: actions/upload-pages-artifact@v3
         with:

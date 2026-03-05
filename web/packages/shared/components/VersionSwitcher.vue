@@ -18,7 +18,8 @@ function navigateToVersion(event: Event) {
   const select = event.target as HTMLSelectElement
   const version = manifest.value?.versions.find(v => v.id === select.value)
   if (version) {
-    navigateTo(versionUrl(version), { external: true })
+    // Full page navigation — versions are separate Nuxt apps
+    window.location.href = versionUrl(version)
   }
 }
 </script>
