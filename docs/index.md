@@ -22,6 +22,8 @@ Here's the expression syntax as a railroad diagram:
 
 ::ebnf-railroad{file="grammar.ebnf" rule="statement"}
 
+::ebnf-railroad{file="grammar.ebnf" rule="type"}
+
 ## Next Steps
 
 - Read the [Language Specification](/spec/next/) for complete details
