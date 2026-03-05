@@ -14,6 +14,15 @@ Welcome to the 2b programming language documentation.
 let greeting: string = "Hello, 2b!"
 ```
 
+::ide-try-it{src="/examples/hello-world.json" label="Try Hello World"}
+::
+
+::ide-try-it{src="/examples/fibonacci.json" label="Try Fibonacci"}
+::
+
+::ide-try-it{src="/examples/multi-file.json" label="Try Multi-File Project"}
+::
+
 ## Grammar
 
 Here's the expression syntax as a railroad diagram:

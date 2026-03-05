@@ -1,0 +1,65 @@
+/* Golden Layout dark theme overrides for 2b IDE */
+
+.lm_goldenlayout {
+  background: var(--ide-base, #1e1e2e);
+}
+
+.lm_header {
+  background: var(--ide-mantle, #181825) !important;
+  height: 35px !important;
+}
+
+.lm_header .lm_tab {
+  background: var(--ide-surface0, #313244) !important;
+  color: var(--ide-subtext0, #a6adc8) !important;
+  border: none !important;
+  border-right: 1px solid var(--ide-surface1, #45475a) !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 13px;
+  padding: 0 14px !important;
+  height: 35px !important;
+  line-height: 35px !important;
+  margin: 0 !important;
+}
+
+.lm_header .lm_tab:hover {
+  background: var(--ide-surface1, #45475a) !important;
+}
+
+.lm_header .lm_tab.lm_active {
+  background: var(--ide-base, #1e1e2e) !important;
+  color: var(--ide-text, #cdd6f4) !important;
+}
+
+.lm_header .lm_tab .lm_close_tab {
+  display: none !important;
+}
+
+.lm_splitter {
+  background: var(--ide-surface1, #45475a) !important;
+  opacity: 1 !important;
+}
+
+.lm_splitter:hover {
+  background: var(--ide-accent, #89b4fa) !important;
+}
+
+.lm_content {
+  background: var(--ide-base, #1e1e2e) !important;
+  border: none !important;
+}
+
+.lm_dragProxy .lm_content {
+  background: var(--ide-mantle, #181825) !important;
+}
+
+.lm_dropTargetIndicator {
+  outline: 2px solid var(--ide-accent, #89b4fa) !important;
+  background: rgba(137, 180, 250, 0.15) !important;
+}
+
+/* Tab drag indicators */
+.lm_header .lm_tabdropdown_list {
+  background: var(--ide-mantle, #181825);
+  border: 1px solid var(--ide-surface1, #45475a);
+}

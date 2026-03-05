@@ -1,0 +1,10 @@
+{
+  "id": "fibonacci",
+  "name": "Fibonacci",
+  "files": [
+    {
+      "name": "main.2b",
+      "content": "fn fib(n: int) -> int {\n  if n <= 1 { return n }\n  return fib(n - 1) + fib(n - 2)\n}\n\nfn main() {\n  let result: int = fib(10)\n  print(result)\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+export { default as IdeEditor } from './IdeEditor.vue'
+export { default as TryIt } from './components/TryIt.vue'
+export type { Project, ProjectFile } from './types/project'
+export type { CompileResult, ASTNode, CompileError } from './types/compiler'
+export { themes, getThemeById, applyTheme } from './themes'
+export type { IdeTheme } from './themes'

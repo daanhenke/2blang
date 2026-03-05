@@ -1,0 +1,10 @@
+{
+  "id": "hello-world",
+  "name": "Hello World",
+  "files": [
+    {
+      "name": "main.2b",
+      "content": "fn main() {\n  print(\"Hello, World!\")\n}\n"
+    }
+  ]
+}

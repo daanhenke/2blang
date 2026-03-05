@@ -1,0 +1,19 @@
+{
+  "id": "multi-file",
+  "name": "Multi-File Project",
+  "files": [
+    {
+      "name": "main.2b",
+      "content": "import math\nimport strings\n\nfn main() {\n  let a: int = 10\n  let b: int = 20\n  let sum: int = math.add(a, b)\n  let label: string = strings.format(\"Sum: {}\", sum)\n  print(label)\n}\n"
+    },
+    {
+      "name": "math.2b",
+      "content": "fn add(a: int, b: int) -> int {\n  return a + b\n}\n\nfn subtract(a: int, b: int) -> int {\n  return a - b\n}\n\nfn multiply(a: int, b: int) -> int {\n  return a * b\n}\n"
+    },
+    {
+      "name": "strings.2b",
+      "content": "fn format(template: string, value: int) -> string {\n  // placeholder formatting\n  return template\n}\n\nfn concat(a: string, b: string) -> string {\n  return a + b\n}\n"
+    }
+  ],
+  "openFiles": ["main.2b", "strings.2b"]
+}

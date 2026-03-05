@@ -10,6 +10,9 @@
     "preview": "nuxt preview",
     "lint": "eslint ."
   },
+  "dependencies": {
+    "@2b/ide": "workspace:*"
+  },
   "devDependencies": {
     "@2b/eslint-config": "workspace:*",
     "@2b/shared": "workspace:*",
