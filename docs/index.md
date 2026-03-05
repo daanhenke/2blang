@@ -20,6 +20,8 @@ Here's the expression syntax as a railroad diagram:
 
 ::ebnf-railroad{file="grammar.ebnf" rule="expression"}
 
+::ebnf-railroad{file="grammar.ebnf" rule="statement"}
+
 ## Next Steps
 
 - Read the [Language Specification](/spec/next/) for complete details
