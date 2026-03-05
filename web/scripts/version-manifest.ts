@@ -114,18 +114,20 @@ export function generateManifest(repoRoot: string): VersionManifest {
     path: '/docs/next/',
   })
 
-  // Sort: releases first (desc by version), then RCs (desc), then next
+  // Sort: "next" first (top of dropdown), then releases (desc by version), then RCs (desc)
   versions.sort((a, b) => {
-    const typeOrder: Record<string, number> = { release: 0, 'release-candidate': 1, next: 2 }
+    const typeOrder: Record<string, number> = { next: 0, release: 1, 'release-candidate': 2 }
     const typeA = typeOrder[a.type] ?? 3
     const typeB = typeOrder[b.type] ?? 3
     if (typeA !== typeB) return typeA - typeB
     return compareVersions(a.id, b.id)
   })
 
-  // Latest is the highest-versioned release
+  // Latest is the highest release, or highest RC if no releases exist
+  // "next" is never the default — it's a dev-only version
   const latestRelease = versions.find(v => v.type === 'release')
-  const latest = latestRelease?.id || 'next'
+  const latestRC = versions.find(v => v.type === 'release-candidate')
+  const latest = latestRelease?.id || latestRC?.id || 'next'
 
   const current = resolveCurrentVersion(repoRoot)
 
