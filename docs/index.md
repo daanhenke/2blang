@@ -19,10 +19,13 @@ let greeting: string = "Hello, 2b!"
 Here's the expression syntax as a railroad diagram:
 
 ::ebnf-railroad{file="grammar.ebnf" rule="expression"}
+::
 
 ::ebnf-railroad{file="grammar.ebnf" rule="statement"}
+::
 
 ::ebnf-railroad{file="grammar.ebnf" rule="type"}
+::
 
 ## Next Steps
 
