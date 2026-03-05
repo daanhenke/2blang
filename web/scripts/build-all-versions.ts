@@ -102,5 +102,8 @@ const latestSpecRedirect = `<!DOCTYPE html>
 mkdirSync(join(distRoot, 'spec', 'latest'), { recursive: true })
 writeFileSync(join(distRoot, 'spec', 'latest', 'index.html'), latestSpecRedirect)
 
+// Add .nojekyll for GitHub Pages
+writeFileSync(join(distRoot, '.nojekyll'), '')
+
 console.log('\n=== All versions built successfully ===')
 console.log(`Output: ${distRoot}`)

@@ -50,10 +50,16 @@ jobs:
           if [[ "${{ github.event.inputs.build_all }}" == "true" ]]; then
             echo "mode=all" >> $GITHUB_OUTPUT
           elif [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            REF="${GITHUB_REF#refs/tags/}"
             echo "mode=single" >> $GITHUB_OUTPUT
-            echo "ref=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+            echo "ref=$REF" >> $GITHUB_OUTPUT
+            # Extract version ID from tag: releases/v1.1 -> v1.1, release-candidates/v1.1-rc2 -> v1.1-rc2
+            VERSION="${REF#releases/}"
+            VERSION="${VERSION#release-candidates/}"
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
           else
             echo "mode=current" >> $GITHUB_OUTPUT
+            echo "version=next" >> $GITHUB_OUTPUT
           fi
 
       # Generate version manifest
@@ -83,27 +89,29 @@ jobs:
           pnpm --filter @2b/spec run generate
 
       # Merge outputs into dist/
-      # nuxt generate always outputs flat to .output/public/ regardless of baseURL
-      # baseURL only affects URLs inside the HTML (asset refs, router config)
+      # For 'all' mode, build-all-versions.ts already creates dist/ — skip merge
+      # For 'current' and 'single', assemble dist/ from .output/public/ dirs
       - name: Merge outputs
+        if: steps.scope.outputs.mode != 'all'
         run: |
+          VERSION="${{ steps.scope.outputs.version }}"
           mkdir -p dist
 
-          # Landing goes to root
+          # Landing (only built in 'current' mode)
           if [ -d web/apps/landing/.output/public ]; then
             cp -r web/apps/landing/.output/public/* dist/
           fi
 
           # Docs
           if [ -d web/apps/docs/.output/public ]; then
-            mkdir -p dist/docs/next
-            cp -r web/apps/docs/.output/public/* dist/docs/next/
+            mkdir -p "dist/docs/$VERSION"
+            cp -r web/apps/docs/.output/public/* "dist/docs/$VERSION/"
           fi
 
           # Spec
           if [ -d web/apps/spec/.output/public ]; then
-            mkdir -p dist/spec/next
-            cp -r web/apps/spec/.output/public/* dist/spec/next/
+            mkdir -p "dist/spec/$VERSION"
+            cp -r web/apps/spec/.output/public/* "dist/spec/$VERSION/"
           fi
 
           # Copy manifest to dist root
