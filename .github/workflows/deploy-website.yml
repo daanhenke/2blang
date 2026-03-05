@@ -88,13 +88,13 @@ jobs:
           pnpm --filter @2b/docs run generate
           pnpm --filter @2b/spec run generate
 
-      # Restore previous deployment as base for incremental builds
+      # Restore previous deployment for incremental builds (not needed for full rebuild)
       - name: Restore previous deployment
         if: steps.scope.outputs.mode != 'all'
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: dist
-          key: pages-dist-${{ github.run_id }}
+          key: pages-dist-never-matches
           restore-keys: pages-dist-
 
       # Merge new build outputs into dist/ (on top of cached state)
@@ -131,6 +131,13 @@ jobs:
 
           # Add .nojekyll for GitHub Pages
           touch dist/.nojekyll
+
+      # Save dist/ to cache for future incremental builds
+      - name: Save deployment cache
+        uses: actions/cache/save@v4
+        with:
+          path: dist
+          key: pages-dist-${{ github.run_id }}
 
       - uses: actions/upload-pages-artifact@v3
         with:
