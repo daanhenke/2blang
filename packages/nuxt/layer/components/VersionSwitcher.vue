@@ -16,11 +16,12 @@ interface Group {
 const groups = computed<Group[]>(() =>
 {
   const m = manifest.value
-  return [
+  const all: Group[] = [
     { channel: 'stable', label: 'Stable', versions: m.channels.stable.versions },
     { channel: 'preview', label: 'Preview', versions: m.channels.preview.versions },
     { channel: 'next', label: 'Next', versions: m.channels.next.versions }
-  ].filter((g) => g.versions.length > 0)
+  ]
+  return all.filter((g) => g.versions.length > 0)
 })
 
 function urlFor(versionName: string)

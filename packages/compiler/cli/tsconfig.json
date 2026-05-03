@@ -4,11 +4,5 @@
     "rootDir": "./src",
     "outDir": "./dist"
   },
-  "include": ["src/**/*"],
-  "references": [
-    { "path": "../core" },
-    { "path": "../tooling" },
-    { "path": "../backends/wasm" },
-    { "path": "../backends/llvm" }
-  ]
+  "include": ["src/**/*"]
 }

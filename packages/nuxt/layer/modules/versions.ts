@@ -28,8 +28,10 @@ const versionsModule = defineNuxtModule<Record<string, never>>({
   {
     const version = detectVersion()
 
-    nuxt.options.runtimeConfig.public ??= {}
-    const pub = nuxt.options.runtimeConfig.public as Record<string, unknown>
+    // `runtimeConfig.public` is typed as required (the project augments
+    // PublicRuntimeConfig with mdc / "2blang" / content), so a literal `{}`
+    // fallback fails type-checking. Mutate without reassigning.
+    const pub = nuxt.options.runtimeConfig.public as unknown as Record<string, unknown>
     pub['2blang'] = {
       ...((pub['2blang'] as Record<string, unknown>) ?? {}),
       version
