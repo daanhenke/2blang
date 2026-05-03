@@ -4,6 +4,7 @@ const v = detectVersion()
 
 export default defineNuxtConfig({
   extends: ['@2blang/nuxt-layer'],
+  versioning: { emitManifest: true },
   app: {
     baseURL: process.env.NUXT_APP_BASE_URL ?? `/docs/${v.segment}/`,
     head: {

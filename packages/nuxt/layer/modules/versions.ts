@@ -1,62 +1,57 @@
-import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
-import { tmpdir } from 'node:os'
+import { mkdirSync, writeFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
 import { defineNuxtModule } from '@nuxt/kit'
 import { defaultManifest, mergeManifest } from '../utils/versioning'
 import { detectVersion } from '../utils/versioning.node'
 
-interface NitroConfigSlice {
-  publicAssets?: Array<{ dir: string, baseURL?: string }>
+interface NitroLike {
+  hooks: { hookOnce: (k: string, fn: () => void | Promise<void>) => void }
+  options: { output: { publicDir: string } }
 }
-type NitroHook = (key: 'nitro:config', fn: (config: NitroConfigSlice) => void) => void
+type NitroInitHook = (key: 'nitro:init', fn: (nitro: NitroLike) => void) => void
 
-/**
- * Always exposes the detected version through `runtimeConfig.public['2blang']`.
- * Emits a fresh `versions.json` to the static output only when the consuming
- * app has `appConfig.features.versioning === true`. The CI deploy step is
- * responsible for merging this with the live manifest.
- *
- * Implementation note: rather than hooking the build, we stage the manifest
- * into a temp directory and register that directory as a Nitro `publicAssets`
- * source. Nitro copies it into `.output/public/versions.json` during
- * generation. This avoids depending on hook names that move between Nuxt
- * versions.
- */
-const versionsModule = defineNuxtModule<Record<string, never>>({
-  meta: { name: '2blang-versions' },
-  setup(_options, nuxt)
+export interface VersionsModuleOptions {
+  /**
+   * Whether to emit a `versions.json` manifest into the static output.
+   * Build-time flag; this is independent of the runtime
+   * `appConfig.features.versioning` flag (which controls UI rendering of
+   * the version switcher). They normally mirror each other.
+   *
+   * `nuxt.options.appConfig` isn't merged with each layer's `app.config.ts`
+   * at module setup time, so we can't read `features.versioning` here —
+   * each app's `nuxt.config.ts` sets this option explicitly instead.
+   */
+  emitManifest?: boolean
+}
+
+const versionsModule = defineNuxtModule<VersionsModuleOptions>({
+  meta: { name: 'versioning', configKey: 'versioning' },
+  defaults: { emitManifest: false },
+  setup(options, nuxt)
   {
     const version = detectVersion()
 
-    // `runtimeConfig.public` is typed as required (the project augments
-    // PublicRuntimeConfig with mdc / "2blang" / content), so a literal `{}`
-    // fallback fails type-checking. Mutate without reassigning.
     const pub = nuxt.options.runtimeConfig.public as unknown as Record<string, unknown>
     pub['2blang'] = {
       ...((pub['2blang'] as Record<string, unknown>) ?? {}),
       version
     }
 
-    const features = (nuxt.options.appConfig?.features ?? {}) as {
-      versioning?: boolean
-    }
-    if (!features.versioning) return
+    if (!options.emitManifest) return
 
-    const manifest = mergeManifest(defaultManifest(), version)
-    const stageDir = mkdtempSync(join(tmpdir(), '2blang-versions-'))
-    mkdirSync(stageDir, { recursive: true })
-    writeFileSync(
-      join(stageDir, 'versions.json'),
-      JSON.stringify(manifest, null, 2)
-    );
+    const manifest = mergeManifest(defaultManifest(), version);
 
-    // The `nitro:config` hook lives on Nitro's hook map, which augments
-    // NuxtHooks at runtime but isn't always picked up by TS — cast the
-    // hook function to a typed slice so the build doesn't complain.
-    (nuxt.hook as NitroHook)('nitro:config', (config) =>
+    // Write directly into Nitro's output dir once it's compiled. Tried
+    // publicAssets first but the staging dir under `.nuxt/` gets cleaned
+    // before Nitro reads it, so the file never lands in `.output/public`.
+    (nuxt.hook as NitroInitHook)('nitro:init', (nitro) =>
     {
-      config.publicAssets ??= []
-      config.publicAssets.push({ dir: stageDir, baseURL: '/' })
+      nitro.hooks.hookOnce('compiled', () =>
+      {
+        const out = join(nitro.options.output.publicDir, 'versions.json')
+        mkdirSync(dirname(out), { recursive: true })
+        writeFileSync(out, JSON.stringify(manifest, null, 2))
+      })
     })
   }
 })
