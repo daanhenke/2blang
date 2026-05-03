@@ -1,0 +1,11 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/compiler/core" },
+    { "path": "./packages/compiler/cli" },
+    { "path": "./packages/compiler/tooling" },
+    { "path": "./packages/compiler/backends/wasm" },
+    { "path": "./packages/compiler/backends/llvm" },
+    { "path": "./packages/configs/unocss-preset" }
+  ]
+}

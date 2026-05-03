@@ -1,0 +1,96 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "globalDependencies": [
+    "**/.env.*local",
+    "tsconfig.json",
+    "pnpm-workspace.yaml",
+    "pnpm-lock.yaml"
+  ],
+  "globalEnv": [
+    "NODE_ENV",
+    "VERSION_NAME",
+    "GITHUB_REF_NAME",
+    "GITHUB_SHA",
+    "NUXT_PUBLIC_2BLANG_PDF_MODE",
+    "SITE_APP",
+    "NUXT_APP_BASE_URL"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "src/**",
+        "tests/**",
+        "tsup.config.ts",
+        "tsconfig.json",
+        "package.json",
+        "nuxt.config.ts",
+        "content.config.ts",
+        "app.vue",
+        "app.config.ts",
+        "app/**",
+        "components/**",
+        "composables/**",
+        "layouts/**",
+        "modules/**",
+        "pages/**",
+        "plugins/**",
+        "public/**",
+        "scripts/**",
+        "server/**",
+        "utils/**",
+        "../../../content/**",
+        "../../../assets/**"
+      ],
+      "outputs": ["dist/**", ".nuxt/**", ".output/**"]
+    },
+    "build:pdf": {
+      "dependsOn": ["build"],
+      "inputs": [
+        "scripts/**",
+        "content.config.ts",
+        "nuxt.config.ts",
+        "../../../content/spec/**"
+      ],
+      "outputs": [".output/public/spec.pdf"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {
+      "inputs": [
+        "src/**",
+        "tests/**",
+        "components/**",
+        "composables/**",
+        "layouts/**",
+        "modules/**",
+        "pages/**",
+        "plugins/**",
+        "scripts/**",
+        "utils/**",
+        "eslint.config.*",
+        "package.json"
+      ],
+      "outputs": []
+    },
+    "format": {
+      "cache": false,
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "tests/**", "vitest.config.*", "package.json"],
+      "outputs": ["coverage/**"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "@2blang/eslint-config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./vue": "./vue.ts"
+  },
+  "files": ["index.ts", "vue.ts"],
+  "peerDependencies": {
+    "eslint": "catalog:"
+  },
+  "dependencies": {
+    "@eslint/js": "catalog:",
+    "@stylistic/eslint-plugin": "catalog:",
+    "eslint-plugin-vue": "catalog:",
+    "globals": "catalog:",
+    "jiti": "catalog:",
+    "typescript-eslint": "catalog:",
+    "vue-eslint-parser": "catalog:"
+  }
+}

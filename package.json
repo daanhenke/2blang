@@ -1,0 +1,35 @@
+{
+  "name": "2blang",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "2blang language monorepo: compiler, tooling, and websites",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20.11.0",
+    "pnpm": ">=9.5.0"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "build:sites": "turbo run build --filter='@2blang/website' --filter='@2blang/docs' --filter='@2blang/spec'",
+    "build:pdf": "turbo run build:pdf --filter='@2blang/spec'",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "turbo run format",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "clean": "turbo run clean && rimraf node_modules .turbo"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "rimraf": "catalog:",
+    "tsx": "catalog:",
+    "turbo": "catalog:",
+    "typescript": "catalog:"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@nuxt/content": "patches/@nuxt__content.patch"
+    }
+  }
+}

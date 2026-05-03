@@ -1,0 +1,108 @@
+name: deploy
+
+on:
+  push:
+    branches: [master]
+    tags: ['v*']
+  workflow_dispatch:
+
+# GitHub Pages requires these permissions on the deploying job. `contents`
+# stays read-only — we never push from CI.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one production deploy at a time, but don't cancel mid-run if a new
+# push lands while a tag is shipping — let the running deploy finish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.name }}
+      channel: ${{ steps.version.outputs.channel }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Cache turbo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: turbo-deploy-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            turbo-deploy-${{ runner.os }}-
+            turbo-${{ runner.os }}-
+
+      - name: Resolve version
+        id: version
+        run: |
+          REF="${GITHUB_REF_NAME}"
+          if [[ "$REF" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "name=$REF" >> "$GITHUB_OUTPUT"
+            echo "channel=stable" >> "$GITHUB_OUTPUT"
+          elif [[ "$REF" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-pre[0-9]+$ ]]; then
+            echo "name=$REF" >> "$GITHUB_OUTPUT"
+            echo "channel=preview" >> "$GITHUB_OUTPUT"
+          else
+            echo "name=next" >> "$GITHUB_OUTPUT"
+            echo "channel=next" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Build sites
+        run: pnpm build:sites
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.name }}
+
+      - name: Build spec PDF
+        run: pnpm build:pdf
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.name }}
+
+      - name: Merge live versions.json (docs)
+        run: pnpm exec tsx scripts/merge-manifest.ts docs
+
+      - name: Merge live versions.json (spec)
+        run: pnpm exec tsx scripts/merge-manifest.ts spec
+
+      - name: Stage deploy artifacts
+        run: pnpm exec tsx scripts/stage-deploy.ts
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.name }}
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: deploy/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

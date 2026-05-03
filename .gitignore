@@ -1,0 +1,40 @@
+# dependencies
+node_modules
+.pnpm-store
+
+# build outputs
+dist
+build
+.output
+.nuxt
+.turbo
+*.tsbuildinfo
+
+# test outputs
+coverage
+.nyc_output
+playwright-report
+test-results
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# editor
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+
+# os
+.DS_Store
+Thumbs.db
+
+# env
+.env
+.env.local
+.env.*.local
+
+# generated
+*.wasm

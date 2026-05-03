@@ -1,0 +1,47 @@
+{
+  "name": "@2blang/cli",
+  "version": "0.0.0",
+  "description": "2blang command-line driver.",
+  "type": "module",
+  "bin": {
+    "2b": "./dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint .",
+    "format": "eslint . --fix",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist .turbo coverage *.tsbuildinfo"
+  },
+  "dependencies": {
+    "@2blang/backend-llvm": "workspace:*",
+    "@2blang/backend-wasm": "workspace:*",
+    "@2blang/core": "workspace:*",
+    "@2blang/tooling": "workspace:*"
+  },
+  "devDependencies": {
+    "@2blang/eslint-config": "workspace:*",
+    "@2blang/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "rimraf": "catalog:",
+    "tsup": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

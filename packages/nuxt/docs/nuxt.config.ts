@@ -1,0 +1,13 @@
+import { detectVersion } from '@2blang/nuxt-layer/utils/versioning.node'
+
+const v = detectVersion()
+
+export default defineNuxtConfig({
+  extends: ['@2blang/nuxt-layer'],
+  app: {
+    baseURL: process.env.NUXT_APP_BASE_URL ?? `/docs/${v.segment}/`,
+    head: {
+      title: '2blang docs'
+    }
+  }
+})

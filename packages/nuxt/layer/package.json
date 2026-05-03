@@ -1,0 +1,54 @@
+{
+  "name": "@2blang/nuxt-layer",
+  "version": "0.0.0",
+  "description": "Shared Nuxt layer for the 2blang sites.",
+  "type": "module",
+  "main": "./nuxt.config.ts",
+  "exports": {
+    ".": "./nuxt.config.ts",
+    "./utils/versioning": "./utils/versioning.ts",
+    "./utils/versioning.node": "./utils/versioning.node.ts",
+    "./uno.config": "./uno.config.ts"
+  },
+  "files": [
+    "app.config.ts",
+    "app.vue",
+    "nuxt.config.ts",
+    "uno.config.ts",
+    "components/**",
+    "composables/**",
+    "layouts/**",
+    "modules/**",
+    "pages/**",
+    "plugins/**",
+    "public/**",
+    "assets/**",
+    "utils/**"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "format": "eslint . --fix"
+  },
+  "dependencies": {
+    "@2blang/unocss-preset": "workspace:*",
+    "@2blang/ui": "workspace:*",
+    "@nuxt/content": "catalog:",
+    "@nuxt/kit": "catalog:",
+    "better-sqlite3": "catalog:",
+    "@unocss/nuxt": "catalog:",
+    "@unocss/reset": "catalog:",
+    "defu": "catalog:",
+    "nuxt": "catalog:",
+    "pathe": "catalog:",
+    "ufo": "catalog:",
+    "unocss": "catalog:",
+    "vue": "catalog:"
+  },
+  "devDependencies": {
+    "@2blang/eslint-config": "workspace:*",
+    "@2blang/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
+  }
+}

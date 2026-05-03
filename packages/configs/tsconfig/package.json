@@ -1,0 +1,19 @@
+{
+  "name": "@2blang/tsconfig",
+  "version": "0.0.0",
+  "private": true,
+  "files": [
+    "base.json",
+    "library.json",
+    "node.json",
+    "nuxt.json",
+    "test.json"
+  ],
+  "exports": {
+    "./base": "./base.json",
+    "./library": "./library.json",
+    "./node": "./node.json",
+    "./nuxt": "./nuxt.json",
+    "./test": "./test.json"
+  }
+}

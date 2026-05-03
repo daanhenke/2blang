@@ -1,0 +1,27 @@
+{
+  "name": "@2blang/docs",
+  "version": "0.0.0",
+  "description": "2blang documentation site.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev --port 3001",
+    "build": "nuxt generate",
+    "preview": "nuxt preview",
+    "lint": "eslint .",
+    "format": "eslint . --fix",
+    "typecheck": "nuxt typecheck",
+    "clean": "rimraf .nuxt .output .turbo"
+  },
+  "dependencies": {
+    "@2blang/nuxt-layer": "workspace:*"
+  },
+  "devDependencies": {
+    "@2blang/eslint-config": "workspace:*",
+    "@2blang/tsconfig": "workspace:*",
+    "eslint": "catalog:",
+    "nuxt": "catalog:",
+    "rimraf": "catalog:",
+    "typescript": "catalog:"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "extends": "../packages/configs/tsconfig/node.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "noEmit": true,
+    "allowImportingTsExtensions": false
+  },
+  "include": ["**/*.ts"]
+}

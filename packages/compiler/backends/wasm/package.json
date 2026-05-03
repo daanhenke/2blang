@@ -1,0 +1,41 @@
+{
+  "name": "@2blang/backend-wasm",
+  "version": "0.0.0",
+  "description": "WebAssembly backend for the 2blang compiler.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint .",
+    "format": "eslint . --fix",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist .turbo coverage *.tsbuildinfo"
+  },
+  "dependencies": {
+    "@2blang/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@2blang/eslint-config": "workspace:*",
+    "@2blang/tsconfig": "workspace:*",
+    "eslint": "catalog:",
+    "rimraf": "catalog:",
+    "tsup": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

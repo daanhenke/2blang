@@ -1,0 +1,28 @@
+diff --git a/package.json b/package.json
+index 0517f11cdc21e79be42eb6c1ae119820a9ac6386..022045da308e77cee6a3fd0eeab3f327540e5a44 100644
+--- a/package.json
++++ b/package.json
+@@ -21,12 +21,12 @@
+     ".": {
+       "types": "./dist/module.d.mts",
+       "import": "./dist/module.mjs",
+-      "require": "./dist/module.cjs"
++      "require": "./dist/module.mjs"
+     },
+     "./preview": {
+       "types": "./dist/preview.d.mts",
+       "import": "./dist/preview.mjs",
+-      "require": "./dist/preview.cjs"
++      "require": "./dist/preview.mjs"
+     },
+     "./utils": {
+       "types": "./dist/runtime/utils/index.d.ts",
+@@ -36,7 +36,7 @@
+     "./server": "./dist/runtime/server.js",
+     "./nitro": "./dist/runtime/nitro.js"
+   },
+-  "main": "./dist/module.cjs",
++  "main": "./dist/module.mjs",
+   "types": "./dist/module.d.mts",
+   "files": [
+     "dist"

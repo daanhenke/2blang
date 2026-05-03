@@ -1,0 +1,45 @@
+{
+  "name": "@2blang/unocss-preset",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint .",
+    "format": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist .turbo *.tsbuildinfo"
+  },
+  "peerDependencies": {
+    "unocss": "catalog:"
+  },
+  "dependencies": {
+    "@unocss/preset-wind4": "catalog:",
+    "@unocss/preset-icons": "catalog:",
+    "@unocss/preset-typography": "catalog:",
+    "@unocss/preset-web-fonts": "catalog:",
+    "@iconify-json/heroicons": "catalog:",
+    "@iconify-json/lucide": "catalog:"
+  },
+  "devDependencies": {
+    "@2blang/eslint-config": "workspace:*",
+    "@2blang/tsconfig": "workspace:*",
+    "eslint": "catalog:",
+    "rimraf": "catalog:",
+    "tsup": "catalog:",
+    "typescript": "catalog:",
+    "unocss": "catalog:"
+  }
+}
