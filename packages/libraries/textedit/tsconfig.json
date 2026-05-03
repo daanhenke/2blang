@@ -1,4 +1,7 @@
 {
   "extends": "@2blang/tsconfig/nuxt",
-  "include": ["src/**/*", "src/**/*.vue"]
+  "include": [
+    "src/**/*",
+    "src/**/*.vue"
+  ]
 }

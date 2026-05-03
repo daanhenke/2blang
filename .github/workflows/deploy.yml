@@ -19,6 +19,12 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
+# Temporary: ship under `/2blang/` (GitHub Pages user-site repo) until DNS
+# for 2b.team is wired up. Empty this to deploy at the root again.
+env:
+  SITE_BASE_PREFIX: /2blang
+  MANIFEST_BASE_URL: https://daanhenke.github.io/2blang
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -90,6 +96,7 @@ jobs:
         run: pnpm exec tsx scripts/stage-deploy.ts
         env:
           VERSION_NAME: ${{ steps.version.outputs.name }}
+          SITE_BASE_PREFIX: ${{ env.SITE_BASE_PREFIX }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

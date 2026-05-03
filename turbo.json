@@ -14,7 +14,9 @@
     "GITHUB_SHA",
     "NUXT_PUBLIC_2BLANG_PDF_MODE",
     "SITE_APP",
-    "NUXT_APP_BASE_URL"
+    "NUXT_APP_BASE_URL",
+    "SITE_BASE_PREFIX",
+    "MANIFEST_BASE_URL"
   ],
   "tasks": {
     "build": {

@@ -8,6 +8,9 @@ const uiDir = resolve(here, '../../libraries/ui')
 
 const detected = detectVersion()
 const pdfMode = process.env.NUXT_PUBLIC_2BLANG_PDF_MODE === '1'
+// Optional URL prefix (e.g. `/2blang` for GitHub Pages at user.github.io/2blang).
+// Empty in dev and on the real domain — only set during temp deploys.
+const basePrefix = (process.env.SITE_BASE_PREFIX ?? '').replace(/\/$/, '')
 
 export default defineNuxtConfig({
   modules: [
@@ -46,7 +49,8 @@ export default defineNuxtConfig({
     public: {
       '2blang': {
         version: detected,
-        pdfMode
+        pdfMode,
+        basePrefix
       }
     }
   },

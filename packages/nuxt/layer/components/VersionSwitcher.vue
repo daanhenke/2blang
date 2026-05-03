@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { useSiteContext } from '../composables/useSiteContext'
 import { useVersionsManifest } from '../composables/useVersionsManifest'
 
-const { version, features, appSlug } = useSiteContext()
+const { version, features, appSlug, prefix } = useSiteContext()
 const manifest = useVersionsManifest()
 const open = ref(false)
 
@@ -26,7 +26,7 @@ const groups = computed<Group[]>(() =>
 
 function urlFor(versionName: string)
 {
-  return `/${appSlug.value ?? ''}/${versionName}/`
+  return prefix(`/${appSlug.value ?? ''}/${versionName}/`)
 }
 </script>
 

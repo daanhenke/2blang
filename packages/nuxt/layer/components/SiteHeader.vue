@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useAppConfig } from '#imports'
-import { usePdfMode } from '../composables/usePdfMode'
+import { useSiteContext } from '../composables/useSiteContext'
 
 interface DevSites {
   website?: string
@@ -10,9 +10,11 @@ interface DevSites {
 }
 
 const app = useAppConfig()
-const pdf = usePdfMode()
+const { pdfMode, prefix } = useSiteContext()
 
 // In dev each app runs on its own port; in prod they share an origin.
+// `prefix()` adds the optional base prefix (e.g. `/2blang` for the staged
+// GitHub Pages deploy) — empty string in dev and on the real domain.
 const links = computed(() =>
 {
   if (import.meta.dev)
@@ -24,13 +26,17 @@ const links = computed(() =>
       spec: sites.spec ?? '/spec/'
     }
   }
-  return { home: '/', docs: '/docs/', spec: '/spec/' }
+  return {
+    home: prefix('/'),
+    docs: prefix('/docs/'),
+    spec: prefix('/spec/')
+  }
 })
 </script>
 
 <template>
   <header
-    v-if="!pdf"
+    v-if="!pdfMode"
     class="border-b border-gray-200 px-6 py-3 flex items-center justify-between sticky top-0 bg-white/90 backdrop-blur z-30"
   >
     <div class="flex items-center gap-6">

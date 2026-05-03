@@ -22,7 +22,11 @@ if (!existsSync(localPath)) {
 }
 
 const local = JSON.parse(readFileSync(localPath, 'utf8')) as VersionsManifest;
-const remoteUrl = `https://2b.team/${app}/versions.json`;
+// `MANIFEST_BASE_URL` lets staged deploys (e.g. GitHub Pages user repo at
+// `https://user.github.io/2blang`) point at the right host. Defaults to
+// the live domain.
+const baseUrl = (process.env.MANIFEST_BASE_URL ?? 'https://2b.team').replace(/\/$/, '');
+const remoteUrl = `${baseUrl}/${app}/versions.json`;
 
 let remote: VersionsManifest | null = null;
 try {
