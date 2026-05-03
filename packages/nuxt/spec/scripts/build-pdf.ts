@@ -15,11 +15,12 @@
 import { spawn } from 'node:child_process'
 import { createServer } from 'node:http'
 import { createReadStream, statSync } from 'node:fs'
-import { resolve, join, extname } from 'node:path'
+import { dirname, extname, join, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
 import { detectVersion } from '@2blang/nuxt-layer/utils/versioning.node'
 
-const here = resolve(__dirname, '..')
+const here = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const publicDir = resolve(here, '.output/public')
 
 const MIME: Record<string, string> = {

@@ -11,8 +11,8 @@
   },
   "scripts": {
     "build": "turbo run build",
-    "build:sites": "turbo run build --filter='@2blang/website' --filter='@2blang/docs' --filter='@2blang/spec'",
-    "build:pdf": "turbo run build:pdf --filter='@2blang/spec'",
+    "build:sites": "turbo run build --filter=@2blang/website --filter=@2blang/docs --filter=@2blang/spec",
+    "build:pdf": "turbo run build:pdf --filter=@2blang/spec",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "turbo run format",
